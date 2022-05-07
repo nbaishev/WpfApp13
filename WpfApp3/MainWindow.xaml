@@ -1,0 +1,67 @@
+﻿<Window x:Class="WpfApp3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp3"
+        mc:Ignorable="d"
+        Title="Текстовый редактор" Height="450" Width="800" Style="{DynamicResource WindowStyle}">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:MyCommands.Exit" Executed="ExitExecuted"/>
+        <CommandBinding Command="Open" Executed="OpenExecuted"/>
+        <CommandBinding Command="Save" Executed="SaveExecuted"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Style="{DynamicResource MenuStyle}">
+            <MenuItem Header="_Файл" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="_Открыть" Style="{DynamicResource MenuItemStyle}" Command="ApplicationCommands.Open" OpacityMask="#FFF32222"/>
+                <MenuItem Header="_Сохранить " Style="{DynamicResource MenuItemStyle}" Command="Save" />
+                <Separator Style="{DynamicResource SeparatorStyle}"/>
+                <MenuItem Style="{DynamicResource MenuItemStyle}" Command="local:MyCommands.Exit"/>
+            </MenuItem>
+            <MenuItem Header="Правка" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Копировать" Style="{DynamicResource MenuItemStyle}" Command="Copy"/>
+                <MenuItem Header="Вставить" Style="{DynamicResource MenuItemStyle}" Command="Paste"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarTray Grid.Row="1" Style="{DynamicResource ToolBarTrayStyle}">
+            <ToolBar Style="{DynamicResource ToolBarStyle}">
+                <ComboBox x:Name="styleBox" Margin="5" Padding="5" Width="100">
+                </ComboBox>
+                <ComboBox x:Name="combo1" Margin="5" Padding="5" SelectedIndex="0" Width="200" ItemsSource="{StaticResource fontFamily}"/>
+                <ComboBox x:Name="combo2" Margin="5" Padding="5" SelectedIndex="2" Width="50">
+                    <ComboBox.ItemsSource>
+                        <StaticResource ResourceKey="fontSize"/>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+            </ToolBar>
+            <ToolBar Style="{DynamicResource ToolBarStyle}">
+                <Button Click="Button_Click" Background="White">
+                    <Image Source="Data/text_bold.png" Height="20"/>
+                </Button>
+                <Separator/>
+                <Button Click="Button_Click_1" Background="White">
+                    <Image Source="Data/text_italic.png" Height="20"/>
+                </Button>
+                <Separator/>
+                <Button Click="Button_Click_2" Background="White">
+                    <Image Source="Data/text_underline.png" Height="20"/>
+                </Button>
+                <Separator/>
+            </ToolBar>
+            <ToolBar Style="{DynamicResource ToolBarStyle}">
+                <StackPanel VerticalAlignment="Center">
+                    <RadioButton Content="Черный" IsChecked="True" Checked="RadioButton_Checked" Style="{DynamicResource RadioButtonStyle}"/>
+                    <RadioButton Content="Красный" Checked="RadioButton_Checked_1" Style="{DynamicResource RadioButtonStyle}"/>
+                </StackPanel>
+            </ToolBar>
+        </ToolBarTray>
+        <TextBox x:Name="textBox" Grid.Row="2" Margin="5" Padding="5" FontSize="{Binding ElementName=combo2, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" 
+                 FontFamily="{Binding ElementName=combo1, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Style="{DynamicResource TextBoxStyle}"/>
+    </Grid>
+</Window>
